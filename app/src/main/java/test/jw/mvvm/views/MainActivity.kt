@@ -21,24 +21,38 @@ import test.jw.mvvm.viewmodels.UserViewModel
 
 class MainActivity: AppCompatActivity() {
 
-    lateinit var mainLayoutBinding:MainLayoutBinding
+    private lateinit var mainLayoutBinding:MainLayoutBinding
+    private lateinit var user:User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mainLayoutBinding = DataBindingUtil.setContentView(this, R.layout.main_layout)
+        initUserData()
+        initDatabinding()
 
-        var user = User()
+    }
+
+    /**
+     * initial User data
+     */
+    private fun initUserData(){
+        user = User()
         user.age=15
         user.female = false
         user.lastName = "Kim"
         user.firstName = "JeongWoo"
+    }
 
+    /**
+     * initial Databinding
+     */
+    private fun initDatabinding(){
+        mainLayoutBinding = DataBindingUtil.setContentView(this, R.layout.main_layout)
         mainLayoutBinding.setVariable(BR.user, UserViewModel(user))
         mainLayoutBinding.executePendingBindings()
-
     }
 }
+
 @BindingAdapter("age")
 fun changeAge(view: View, age: String) {
     Toast.makeText(view.context,"changed "+age+" age",Toast.LENGTH_LONG).show()
