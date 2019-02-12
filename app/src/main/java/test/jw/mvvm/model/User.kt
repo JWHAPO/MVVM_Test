@@ -1,7 +1,6 @@
 package test.jw.mvvm.model
 
-import android.text.TextUtils
-import android.util.Patterns
+import java.util.*
 
 /**
  * MVVM_Test
@@ -9,11 +8,34 @@ import android.util.Patterns
  * Created by JEONGWOOKIM on 2019-02-11.
  * Description:
  */
-data class User(var email:String, var password:String){
+class User: Observable(){
+    var firstName: String = ""
+    set(value) {
+        field = value
+        setChangedAndNotify("firstName")
+    }
 
-    fun isInputDataValid():Boolean{
-        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 5;
+    var lastName: String = ""
+    set(value) {
+        field = value
+        setChangedAndNotify("lastName")
+    }
 
+    var age: Int = 0
+    set(value) {
+        field = value
+        setChangedAndNotify("age")
+    }
+
+    var female: Boolean = false
+    set(value) {
+        field = value
+        setChangedAndNotify("female")
+    }
+
+
+    private fun setChangedAndNotify(field: Any){
+        setChanged()
+        notifyObservers(field)
     }
 }
-

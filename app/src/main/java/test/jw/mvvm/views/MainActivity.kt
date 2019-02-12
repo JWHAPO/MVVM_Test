@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import com.android.databinding.library.baseAdapters.BR
 import test.jw.mvvm.R
 import test.jw.mvvm.databinding.MainLayoutBinding
-import test.jw.mvvm.viewmodels.LoginViewModel
+import test.jw.mvvm.model.User
+import test.jw.mvvm.viewmodels.UserViewModel
 
 /**
  * MVVM_Test
@@ -26,14 +28,18 @@ class MainActivity: AppCompatActivity() {
 
         mainLayoutBinding = DataBindingUtil.setContentView(this, R.layout.main_layout)
 
-        mainLayoutBinding.viewModel = LoginViewModel()
+        var user = User()
+        user.age=15
+        user.female = false
+        user.lastName = "Kim"
+        user.firstName = "JeongWoo"
+
+        mainLayoutBinding.setVariable(BR.user, UserViewModel(user))
         mainLayoutBinding.executePendingBindings()
 
     }
-
 }
-
- @BindingAdapter("toastMessage")
-fun runMe(view:View, message:String){
-    Toast.makeText(view.context, message, Toast.LENGTH_SHORT).show()
+@BindingAdapter("age")
+fun changeAge(view: View, age: String) {
+    Toast.makeText(view.context,"changed "+age+" age",Toast.LENGTH_LONG).show()
 }
