@@ -1,10 +1,15 @@
 package test.jw.mvvm.viewmodels
 
+import android.content.Intent
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.view.View
+import android.widget.Toast
 import test.jw.mvvm.BR
+import test.jw.mvvm.R
+import test.jw.mvvm.adapter.UserAdapter
 import test.jw.mvvm.model.User
+import test.jw.mvvm.views.AddActivity
 import java.util.*
 
 /**
@@ -14,10 +19,14 @@ import java.util.*
  * Description:
  */
 
-class UserViewModel(private val user: User) : Observer, BaseObservable(){
+class UserViewModel(var user:User) : Observer, BaseObservable(){
+
+    private var users = listOf<User>()
+    private var userAdapter:UserAdapter? = null
 
     init {
         user.addObserver(this)
+        userAdapter = UserAdapter(this,users)
     }
 
     override fun update(p0: Observable?, p1: Any?) {
@@ -46,11 +55,19 @@ class UserViewModel(private val user: User) : Observer, BaseObservable(){
 
     val gender: String
     @Bindable get() {
-        return if(user.female) return "Female" else "Male"
+        return user.gender
+    }
+
+    fun getAdapter():UserAdapter?{
+        return userAdapter
     }
 
     fun onButtonClick(view: View){
-        this.user.age = 35
+        val intent:Intent = Intent(view.context,AddActivity::class.java)
+        view.context.startActivity(intent)
+    }
+    fun onItemClick(user:User){
+        this.user = user
     }
 
 

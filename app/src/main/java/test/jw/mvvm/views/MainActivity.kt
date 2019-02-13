@@ -4,10 +4,13 @@ import android.databinding.BindingAdapter
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Toast
 import com.android.databinding.library.baseAdapters.BR
 import test.jw.mvvm.R
+import test.jw.mvvm.adapter.UserAdapter
 import test.jw.mvvm.databinding.MainLayoutBinding
 import test.jw.mvvm.model.User
 import test.jw.mvvm.viewmodels.UserViewModel
@@ -22,38 +25,33 @@ import test.jw.mvvm.viewmodels.UserViewModel
 class MainActivity: AppCompatActivity() {
 
     private lateinit var mainLayoutBinding:MainLayoutBinding
-    private lateinit var user:User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initUserData()
         initDatabinding()
 
-    }
-
-    /**
-     * initial User data
-     */
-    private fun initUserData(){
-        user = User()
-        user.age=15
-        user.female = false
-        user.lastName = "Kim"
-        user.firstName = "JeongWoo"
     }
 
     /**
      * initial Databinding
      */
     private fun initDatabinding(){
+
+        var user = User()
+        user.lastName = "1"
+        user.age = 33
+
         mainLayoutBinding = DataBindingUtil.setContentView(this, R.layout.main_layout)
-        mainLayoutBinding.setVariable(BR.user, UserViewModel(user))
+        mainLayoutBinding.setVariable(BR.vm, UserViewModel(user))
         mainLayoutBinding.executePendingBindings()
     }
 }
 
-@BindingAdapter("age")
-fun changeAge(view: View, age: String) {
-    Toast.makeText(view.context,"changed "+age+" age",Toast.LENGTH_LONG).show()
+
+@BindingAdapter("setAdapter")
+fun bindRecyclerViewAdapter( recyclerView:RecyclerView, adapter:RecyclerView.Adapter<RecyclerView.ViewHolder> ) {
+    recyclerView.adapter = adapter
+    recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
+    recyclerView.setHasFixedSize(true)
 }

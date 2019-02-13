@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="java.lang.String" />
+        <variable
+            name="obj"
+            type="test.jw.mvvm.model.User" />
+        <variable
+            name="vm"
+            type="test.jw.mvvm.viewmodels.UserViewModel" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#e2e2e2"
+        android:clickable="true"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/row_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="10dp"
+            android:text="@={obj.lastName}"
+            />
+
+        <TextView
+            android:id="@+id/row_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/row_gender"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="10dp"
+            android:text="@={``+obj.age}"
+            />
+
+        <TextView
+            android:id="@+id/row_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            app:layout_constraintTop_toBottomOf="@+id/row_age"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:layout_marginRight="10dp"
+            android:text="@={obj.gender}"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
