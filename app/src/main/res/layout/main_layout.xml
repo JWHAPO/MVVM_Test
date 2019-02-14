@@ -6,14 +6,13 @@
 
     <data>
         <variable
-            name="vm"
-            type="test.jw.mvvm.viewmodels.UserViewModel" />
+            name="usersViewModel"
+            type="test.jw.mvvm.viewmodels.UsersViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".views.MainActivity"
         >
 
         <android.support.v7.widget.RecyclerView
@@ -25,7 +24,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setAdapter="@{vm.getAdapter()}"/>
+            app:data="@{usersViewModel.users}"
+            />
 
         <Button
             android:id="@+id/main_add_btn"
@@ -35,7 +35,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:text="ADD"
-            android:onClick="@{vm::onButtonClick}"
+            android:onClick="@{()-> usersViewModel.onAddClicked()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

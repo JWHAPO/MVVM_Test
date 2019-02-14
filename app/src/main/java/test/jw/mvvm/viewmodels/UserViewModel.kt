@@ -1,74 +1,34 @@
 package test.jw.mvvm.viewmodels
 
-import android.content.Intent
 import android.databinding.BaseObservable
 import android.databinding.Bindable
-import android.view.View
-import android.widget.Toast
-import test.jw.mvvm.BR
-import test.jw.mvvm.R
-import test.jw.mvvm.adapter.UserAdapter
 import test.jw.mvvm.model.User
-import test.jw.mvvm.views.AddActivity
-import java.util.*
 
 /**
  * MVVM_Test
  * Class: UserViewModel
- * Created by JEONGWOOKIM on 2019-02-11.
+ * Created by JEONGWOOKIM on 2019-02-14.
  * Description:
  */
+class UserViewModel : BaseObservable(){
 
-class UserViewModel(var user:User) : Observer, BaseObservable(){
+    @Bindable
+    var user: User = User()
 
-    private var users = listOf<User>()
-    private var userAdapter:UserAdapter? = null
-
-    init {
-        user.addObserver(this)
-        userAdapter = UserAdapter(this,users)
+    fun afterNameTextChanged(s:CharSequence){
+        user.lastName = s.toString()
     }
 
-    override fun update(p0: Observable?, p1: Any?) {
-        if (p1 is String){
-            if(p1 == "age"){
-                notifyPropertyChanged(BR.age)
-            }else if(p1 == "firstName" || p1 == "lastName"){
-                notifyPropertyChanged(BR.name)
-            }else if(p1 == "female"){
-                notifyPropertyChanged(BR.gender)
-            }
-        }
+    fun afterAgeTextChanged(s:CharSequence){
+        user.age = s.toString().toInt()
     }
 
-    val name: String
-    @Bindable get() {
-        return user.firstName+" "+user.lastName
+    fun afterGenderTextChanged(s:CharSequence){
+        user.gender = s.toString()
     }
 
-
-    val age: String
-    @Bindable get() {
-        return if(user.age<=0) return ""
-                else String.format(Locale.ENGLISH, "%d years old", user.age)
+    fun onNextClicked(){
+        //ADD
+        println(user.toString())
     }
-
-    val gender: String
-    @Bindable get() {
-        return user.gender
-    }
-
-    fun getAdapter():UserAdapter?{
-        return userAdapter
-    }
-
-    fun onButtonClick(view: View){
-        val intent:Intent = Intent(view.context,AddActivity::class.java)
-        view.context.startActivity(intent)
-    }
-    fun onItemClick(user:User){
-        this.user = user
-    }
-
-
 }
