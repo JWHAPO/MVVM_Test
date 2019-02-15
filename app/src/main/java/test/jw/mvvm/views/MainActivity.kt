@@ -23,16 +23,15 @@ import test.jw.mvvm.viewmodels.UsersViewModel
 class MainActivity: AppCompatActivity() {
 
     private lateinit var mainLayoutBinding:MainLayoutBinding
-    lateinit var usersViewModel: UsersViewModel
+    private lateinit var usersViewModel: UsersViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        usersViewModel = UsersViewModel()
+        usersViewModel = UsersViewModel(application)
         initDatabinding()
         initRecyclerView()
-
-        usersViewModel.startUpdates()
+        usersViewModel.updateList()
 
     }
 
@@ -54,13 +53,11 @@ class MainActivity: AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        usersViewModel.stopUpdates()
+        usersViewModel.clearCompositeDisposable()
     }
-}
 
-@BindingAdapter("data")
-fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, users: List<User>) {
-
-    val adapter = recyclerView.adapter as UserAdapter?
-    adapter?.setData(users)
+    override fun onResume() {
+        super.onResume()
+        usersViewModel.updateList()
+    }
 }

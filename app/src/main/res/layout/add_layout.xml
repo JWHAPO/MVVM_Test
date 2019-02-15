@@ -18,28 +18,30 @@
 
         <EditText
             android:id="@+id/add_name_et"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:afterTextChanged="@{(editable)->userViewModel.afterNameTextChanged(editable)}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:change_name = "@{userViewModel.user}"/>
 
         <EditText
             android:id="@+id/add_age_et"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:inputType="number"
             android:afterTextChanged="@{(editable)->userViewModel.afterAgeTextChanged(editable)}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_name_et" />
         <EditText
             android:id="@+id/add_gender_et"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:afterTextChanged="@{(editable)->userViewModel.afterGenderTextChanged(editable)}"
@@ -51,7 +53,7 @@
             android:id="@+id/add_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_gender_et"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:onClick="@{()-> userViewModel.onNextClicked()}"

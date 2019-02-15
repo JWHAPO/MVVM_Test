@@ -4,6 +4,8 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import android.arch.persistence.room.Query
+import io.reactivex.Observable
+import io.reactivex.Single
 import test.jw.mvvm.model.User
 
 /**
@@ -16,10 +18,10 @@ import test.jw.mvvm.model.User
 @Dao
 interface UserDao{
     @Query("SELECT * FROM TAUSER")
-    fun getAll(): List<User>
+    fun getAll(): Single<List<User>>
 
     @Insert(onConflict = REPLACE)
-    fun insert(car: User)
+    fun insert(user: User)
 
     @Query("DELETE FROM TAUSER")
     fun deleteAll()

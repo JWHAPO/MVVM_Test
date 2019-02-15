@@ -1,10 +1,21 @@
 package test.jw.mvvm.viewmodels
 
+import android.app.Application
+import android.content.Context
+import android.content.Intent
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.os.Handler
+import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
+import android.widget.Toast
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import test.jw.mvvm.BR
+import test.jw.mvvm.common.db.AppDatabase
 import test.jw.mvvm.model.User
+import test.jw.mvvm.views.AddActivity
 
 /**
  * MVVM_Test
@@ -13,7 +24,11 @@ import test.jw.mvvm.model.User
  * Description:
  */
 
-class UsersViewModel : BaseObservable(){
+class UsersViewModel(var application:Application) : BaseObservable(){
+
+    private var appDatabase: AppDatabase = AppDatabase.getInstance(application)!!
+    private var mCompositeDisposable : CompositeDisposable = CompositeDisposable()
+
 
     @Bindable
     var users: List<User> = emptyList()
@@ -22,37 +37,30 @@ class UsersViewModel : BaseObservable(){
         notifyPropertyChanged(BR.users)
     }
 
-    private val updateInterval = 1000L
-    private val updateHandler = Handler()
-
-    private var updateRunnable:Runnable = object: Runnable{
-        override fun run() {
-            updateList()
-        }
+    fun updateList(){
+        mCompositeDisposable.add(appDatabase.userDao().getAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateUserList, this::searchError)
+        )
     }
 
-
-    private fun updateList(){
-        val user1 = User()
-        user1.id = 1
-        user1.lastName = "Jee"
-        user1.age = 33
-        val user2 = User()
-        user2.id = 2
-        user2.lastName = "Jee111"
-        user2.age = 444
-
-        users = listOf(user1,user2)
+    fun searchError(error: Throwable){
+        Toast.makeText(application.applicationContext,"${error}!",Toast.LENGTH_LONG).show()
     }
 
-    fun startUpdates(){
-        updateHandler.postDelayed(updateRunnable, updateInterval)
+    fun updateUserList(users:List<User>){
+        this.users = users
     }
-    fun stopUpdates(){
-        updateHandler.removeCallbacks(updateRunnable)
+
+    fun clearCompositeDisposable() {
+        mCompositeDisposable.clear()
     }
 
     fun onAddClicked(){
+        val intent = Intent(application as Context,AddActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        application.startActivity(intent)
     }
 
 }

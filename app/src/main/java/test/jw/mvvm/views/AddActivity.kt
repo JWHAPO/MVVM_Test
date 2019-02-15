@@ -23,10 +23,9 @@ class AddActivity:AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        userViewModel = UserViewModel()
+        userViewModel = UserViewModel(application)
         initDatabinding()
     }
-
 
     /**
      * initial Databinding
