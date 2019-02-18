@@ -1,6 +1,5 @@
 package test.jw.mvvm.viewmodels
 
-import android.app.Activity
 import android.app.Application
 import android.databinding.BaseObservable
 import android.databinding.Bindable
@@ -56,4 +55,6 @@ class UserViewModel(val application: Application) : BaseObservable(){
     fun onNextClicked(){
         addList()
     }
+
+
 }

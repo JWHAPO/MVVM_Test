@@ -14,7 +14,7 @@ import test.jw.mvvm.model.User
  * Description:
  */
 
-class UserAdapter : RecyclerView.Adapter<UserAdapter.Holder>(){
+class UserAdapter(val onClick: (User) -> Unit) : RecyclerView.Adapter<UserAdapter.Holder>(){
 
     var users = emptyList<User>()
 
@@ -35,6 +35,9 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.Holder>(){
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(users.get(position))
+        holder.itemView.setOnClickListener {
+            onClick(users.get(position))
+        }
     }
 
     inner class Holder(val binding: ListRowBinding) : RecyclerView.ViewHolder(binding.root){

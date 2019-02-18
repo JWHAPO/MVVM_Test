@@ -1,5 +1,7 @@
 package test.jw.mvvm.views
 
+import android.content.Context
+import android.content.Intent
 import android.databinding.BindingAdapter
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -36,7 +38,9 @@ class MainActivity: AppCompatActivity() {
     }
 
     private fun initRecyclerView(){
-        val adapter = UserAdapter()
+        val adapter = UserAdapter{
+            launchNoteDetailActivity(this@MainActivity,it.id)
+        }
         mainLayoutBinding.mainRv.adapter = adapter
         mainLayoutBinding.mainRv.layoutManager = LinearLayoutManager(applicationContext)
         mainLayoutBinding.mainRv.setHasFixedSize(true)
@@ -59,5 +63,12 @@ class MainActivity: AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         usersViewModel.updateList()
+    }
+
+    private fun launchNoteDetailActivity(context: Context, userId: Long? = null) {
+        val intent = Intent(context, AddActivity::class.java)
+        userId?.let {
+        }
+        context.startActivity(intent)
     }
 }
