@@ -15,39 +15,58 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-
+        <TextView
+            android:id="@+id/add_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="NAME:"/>
         <EditText
             android:id="@+id/add_name_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:text="@{userViewModel.user.lastName}"
             android:afterTextChanged="@{(editable)->userViewModel.afterNameTextChanged(editable)}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_name_title"
             app:change_name = "@{userViewModel.user}"/>
 
+        <TextView
+            android:id="@+id/add_age_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/add_name_et"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="AGE:"/>
         <EditText
             android:id="@+id/add_age_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:inputType="number"
+            android:text="@{``+userViewModel.user.age}"
             android:afterTextChanged="@{(editable)->userViewModel.afterAgeTextChanged(editable)}"
+            app:layout_constraintTop_toBottomOf="@+id/add_age_title"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_name_et" />
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/add_gender_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/add_age_et"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="GENDER:"/>
         <EditText
             android:id="@+id/add_gender_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:text="@{userViewModel.user.gender}"
             android:afterTextChanged="@{(editable)->userViewModel.afterGenderTextChanged(editable)}"
+            app:layout_constraintTop_toBottomOf="@+id/add_gender_title"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_age_et" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <Button
             android:id="@+id/add_btn"

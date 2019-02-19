@@ -1,5 +1,6 @@
 package test.jw.mvvm.views
 
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -7,6 +8,7 @@ import test.jw.mvvm.R
 import test.jw.mvvm.databinding.AddLayoutBinding
 import test.jw.mvvm.viewmodels.UserViewModel
 import com.android.databinding.library.baseAdapters.BR
+import test.jw.mvvm.model.User
 
 /**
  * MVVM_Test
@@ -25,6 +27,10 @@ class AddActivity:AppCompatActivity(){
 
         userViewModel = UserViewModel(application)
         initDatabinding()
+
+        val intent = getIntent()
+        val userId = intent.getLongExtra("userId",0)
+        userId?.let { userViewModel.updateDetail(it) }
     }
 
     /**
@@ -32,7 +38,7 @@ class AddActivity:AppCompatActivity(){
      */
     private fun initDatabinding(){
         addLayoutBinding = DataBindingUtil.setContentView(this, R.layout.add_layout)
-        addLayoutBinding.setVariable(BR.userViewModel, userViewModel)
+        addLayoutBinding.userViewModel = userViewModel
         addLayoutBinding.executePendingBindings()
     }
 }

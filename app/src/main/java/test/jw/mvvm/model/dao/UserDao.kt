@@ -20,6 +20,9 @@ interface UserDao{
     @Query("SELECT * FROM TAUSER")
     fun getAll(): Single<List<User>>
 
+    @Query("SELECT * FROM TAUSER WHERE id = :id")
+    fun getUserById(id: Long):Single<User>
+
     @Insert(onConflict = REPLACE)
     fun insert(user: User)
 

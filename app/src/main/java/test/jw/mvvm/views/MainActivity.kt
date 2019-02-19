@@ -39,7 +39,7 @@ class MainActivity: AppCompatActivity() {
 
     private fun initRecyclerView(){
         val adapter = UserAdapter{
-            launchNoteDetailActivity(this@MainActivity,it.id)
+            goDetailActivity(this@MainActivity,it.id)
         }
         mainLayoutBinding.mainRv.adapter = adapter
         mainLayoutBinding.mainRv.layoutManager = LinearLayoutManager(applicationContext)
@@ -65,9 +65,10 @@ class MainActivity: AppCompatActivity() {
         usersViewModel.updateList()
     }
 
-    private fun launchNoteDetailActivity(context: Context, userId: Long? = null) {
+    private fun goDetailActivity(context: Context, userId: Long) {
         val intent = Intent(context, AddActivity::class.java)
         userId?.let {
+            intent.putExtra("userId",it)
         }
         context.startActivity(intent)
     }

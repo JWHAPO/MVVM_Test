@@ -3,9 +3,11 @@ package test.jw.mvvm.viewmodels
 import android.app.Application
 import android.databinding.BaseObservable
 import android.databinding.Bindable
+import android.widget.Toast
 import com.android.databinding.library.baseAdapters.BR
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Action
 import io.reactivex.schedulers.Schedulers
 import test.jw.mvvm.common.db.AppDatabase
@@ -20,13 +22,17 @@ import test.jw.mvvm.model.User
 class UserViewModel(val application: Application) : BaseObservable(){
 
     private var appDatabase: AppDatabase = AppDatabase.getInstance(application)!!
+    private var mCompositeDisposable : CompositeDisposable = CompositeDisposable()
 
     @Bindable
     var user: User = User()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.user)
+        }
 
     fun afterNameTextChanged(s:CharSequence){
         user.lastName = s.toString()
-        notifyPropertyChanged(BR.user)
     }
 
     fun afterAgeTextChanged(s:CharSequence){
@@ -42,6 +48,24 @@ class UserViewModel(val application: Application) : BaseObservable(){
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::successAdd,this::failAdd)
+    }
+
+    fun updateDetail(userId:Long) {
+        if(userId!=0L){
+            mCompositeDisposable.add(appDatabase.userDao().getUserById(userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::updateUser, this::searchError)
+            )
+        }
+    }
+
+    private fun updateUser(user:User){
+        this.user = user
+    }
+
+    private fun searchError(error: Throwable){
+        Toast.makeText(application.applicationContext,"${error}!", Toast.LENGTH_LONG).show()
     }
 
     fun successAdd(){
