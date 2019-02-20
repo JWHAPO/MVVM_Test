@@ -25,7 +25,7 @@ class UserAdapter(val onClick: (User) -> Unit) : RecyclerView.Adapter<UserAdapte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val layoutInflater  = LayoutInflater.from(parent.context)
-        val binding = ListRowBinding.inflate(layoutInflater)
+        val binding = ListRowBinding.inflate(layoutInflater,parent,false)
         return Holder(binding)
     }
 
@@ -34,9 +34,9 @@ class UserAdapter(val onClick: (User) -> Unit) : RecyclerView.Adapter<UserAdapte
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(users.get(position))
+        holder.bind(users[position])
         holder.itemView.setOnClickListener {
-            onClick(users.get(position))
+            onClick(users[position])
         }
     }
 
