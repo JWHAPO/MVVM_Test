@@ -20,8 +20,3 @@ fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, users: List<User>)
     val adapter = recyclerView.adapter as UserAdapter?
     adapter?.setData(users)
 }
-
-@BindingAdapter("change_name")
-fun setChangeName(view: View, user:User){
-    Toast.makeText(view.context,"Text: ${user.lastName} !!",Toast.LENGTH_SHORT).show()
-}

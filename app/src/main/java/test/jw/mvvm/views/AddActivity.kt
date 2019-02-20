@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import test.jw.mvvm.R
 import test.jw.mvvm.databinding.AddLayoutBinding
 import test.jw.mvvm.viewmodels.UserViewModel
-import com.android.databinding.library.baseAdapters.BR
-import test.jw.mvvm.model.User
 
 /**
  * MVVM_Test
@@ -20,7 +18,6 @@ class AddActivity:AppCompatActivity(){
 
     lateinit var addLayoutBinding: AddLayoutBinding
     lateinit var userViewModel: UserViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

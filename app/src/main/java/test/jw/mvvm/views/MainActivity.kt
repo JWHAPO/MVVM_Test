@@ -2,17 +2,14 @@ package test.jw.mvvm.views
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.BindingAdapter
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import com.android.databinding.library.baseAdapters.BR
 import test.jw.mvvm.R
 import test.jw.mvvm.adapter.UserAdapter
 import test.jw.mvvm.databinding.MainLayoutBinding
-import test.jw.mvvm.model.User
 import test.jw.mvvm.viewmodels.UsersViewModel
 
 /**
