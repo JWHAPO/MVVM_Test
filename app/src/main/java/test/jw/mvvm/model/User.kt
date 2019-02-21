@@ -3,6 +3,8 @@ package test.jw.mvvm.model
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import android.text.TextUtils
+import android.util.Patterns
 import java.util.*
 
 /**
@@ -17,18 +19,18 @@ class User: Observable(){
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L
 
-    @ColumnInfo(name = "first_name")
-    var firstName: String = ""
-    set(value) {
-        field = value
-        setChangedAndNotify("firstName")
-    }
-
     @ColumnInfo(name = "last_name")
     var lastName: String = ""
     set(value) {
         field = value
         setChangedAndNotify("lastName")
+    }
+
+    @ColumnInfo(name = "email")
+    var email: String = ""
+    set(value) {
+        field = value
+        setChangedAndNotify("email")
     }
 
     @ColumnInfo(name = "age")
@@ -49,5 +51,9 @@ class User: Observable(){
     private fun setChangedAndNotify(field: Any){
         setChanged()
         notifyObservers(field)
+    }
+
+    fun isEmailValid() :Boolean{
+        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

@@ -25,6 +25,9 @@ class UserViewModel(val application: Application) : BaseObservable(){
     private var mCompositeDisposable : CompositeDisposable = CompositeDisposable()
 
     @Bindable
+    var emailValue:Boolean = false;
+
+    @Bindable
     var user: User = User()
         set(value) {
             field = value
@@ -34,9 +37,15 @@ class UserViewModel(val application: Application) : BaseObservable(){
     fun afterNameTextChanged(s:CharSequence){
         user.lastName = s.toString()
     }
+    fun afterEmailTextChanged(s:CharSequence){
+        user.email = s.toString()
+        emailValue = user.isEmailValid()
+        notifyPropertyChanged(BR.emailValue)
+    }
 
     fun afterAgeTextChanged(s:CharSequence){
-        user.age = s.toString().toInt()
+        if(s=="") user.age = 0
+        else user.age = s.toString().toInt()
     }
 
     fun afterGenderTextChanged(s:CharSequence){
@@ -61,6 +70,7 @@ class UserViewModel(val application: Application) : BaseObservable(){
     }
 
     private fun updateUser(user:User){
+        emailValue = true
         this.user = user
     }
 
