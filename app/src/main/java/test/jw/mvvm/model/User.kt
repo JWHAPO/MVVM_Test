@@ -54,6 +54,6 @@ class User: Observable(){
     }
 
     fun isEmailValid() :Boolean{
-        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 }
